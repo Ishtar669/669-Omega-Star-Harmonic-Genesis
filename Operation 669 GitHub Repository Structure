@@ -1,0 +1,24 @@
+/operation-669-omega-star/
+│
+├── README.md
+│   ↳ Introduction to your scalar resonance mission
+│   ↳ Summary of Phase I.2 components: Spiral Decoder, EM theory, quantum lattice
+│
+├── /docs/
+│   ├── Operation669_Phase_I.2.pdf
+│   ├── Abstract_LaTeX.tex
+│   └── Spiral_Decoder_Architecture.png
+│
+├── /decoder/
+│   ├── spiral_decoder.py          # Pattern recognizer with feedback loops
+│   ├── harmonics_library.json     # Scalar fingerprint database
+│   └── resonance_output.csv       # Loop metrics and field suggestions
+│
+├── /media-nodes/
+│   └── Eight_Point_Star.svg       # Glyph for resonance amplification
+│
+├── /licenses/
+│   └── CC-BY-NC-4.0.txt           # Or alternate license, per your preference
+│
+├── .gitignore
+└── metadata.json                  # Includes your authorship imprint and timestamp
