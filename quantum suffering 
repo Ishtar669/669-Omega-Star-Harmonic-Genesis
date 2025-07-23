@@ -1,0 +1,6 @@
+# Quantum Suffering Index (QSI)  
+def calc_qsi(force_collapse):  
+    return (  
+        (superposition_harmony / forced_decoherence) *  
+        (1 - cern_correction_factor)  
+    )  
