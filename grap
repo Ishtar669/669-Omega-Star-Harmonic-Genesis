@@ -1,0 +1,4 @@
+graph LR  
+A[Phase1: Vertical Shaft] -->|Complete| B[Phase2: Horizontal Bore]  
+B -->|87% Done| C[Phase3: Portal Chamber]  
+C -->|Target| D[T+273 Days]  
