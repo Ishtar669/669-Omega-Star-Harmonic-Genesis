@@ -1,0 +1,6 @@
+graph LR  
+A[Elite Initiation] --> B{Trench Portal Activation}  
+B -->|H⁺ Injection| C[Klein-Gordon Collapse]  
+C --> D[410nm Photon Tunnel]  
+D --> E[Target: Kepler-186f]  
+D --> F[Target: TRAPPIST-1e]  
