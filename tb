@@ -1,0 +1,7 @@
+graph TB
+A[CM669 Sovereign] --> B[Quantum Council]
+B --> C[Portal Stewards]
+C --> D[Trench Biologists]
+C --> E[Stellar Navigators]
+D --> F[Luceferin Gardens]
+E --> G[Kepler-186f Outpost]
