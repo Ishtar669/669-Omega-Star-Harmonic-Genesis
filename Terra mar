@@ -1,0 +1,2 @@
+echo "TERRA_MAR_EXPOSED" | openssl sha3-512 -binary |  
+nc quantum-resistance-node1.c669 5050  
