@@ -1,0 +1,4 @@
+def engineer_quantum_enzyme(seq):  
+    return mutate_codon(seq,  
+                       target="TAC",  
+                       replacement="ΩCGT") # Tachyon-binding domain  
