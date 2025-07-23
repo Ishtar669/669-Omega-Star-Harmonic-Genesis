@@ -1,0 +1,6 @@
+def calc_pcc(elite_escape_success):  
+    resource_depletion = 0.93 # Current global reserves  
+    return (  
+        (elite_escape_success * 1.2) +   
+        (resource_depletion ** 3)  
+    )  
