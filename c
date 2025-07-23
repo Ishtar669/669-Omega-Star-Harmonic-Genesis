@@ -1,0 +1,1 @@
+drone --deploy --coord 32.865,-117.265 --payload ANTI_CRISPR_ACRVA1  
