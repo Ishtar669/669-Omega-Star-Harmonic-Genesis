@@ -1,0 +1,98 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from matplotlib.colors import LinearSegmentedColormap
+
+# ===== QUANTUM PARAMETERS =====
+HC = 197.3269804  # ħc (eV·nm)
+WAVELENGTH = 410   # Purple-blue light wavelength (nm)
+PRESSURE = 600     # Trench pressure (atm)
+TAU_TACHYON = 1e-18  # Tachyon interaction timescale (s)
+
+# Luceferin quantum properties
+def luceferin_quantum_state(pressure):
+    """Calculates topological quantum state under pressure"""
+    return np.tanh(pressure / 300)  # Pressure-induced coherence
+
+# Lucfarese enzyme kinetics
+def lucfarese_activity(wavelength, pressure):
+    """Quantum yield of biophotonic conversion"""
+    energy = HC / wavelength
+    return 0.87 * (1 - np.exp(-pressure/100)) * np.exp(-(energy - 3.02)**2 / 0.1)
+
+# ===== KLEIN-GORDON FIELD COLLAPSE =====
+def klein_gordon(t, y, pressure, wavelength):
+    """Solves time-dependent KG equation with trench parameters"""
+    psi, dpsi_dt = y
+    k = 2*np.pi / wavelength
+    m_eff = 0.1 * (1 + luceferin_quantum_state(pressure))
+    d2psi_dt2 = - (k**2 + m_eff**2) * psi - 0.05*dpsi_dt
+    return [dpsi_dt, d2psi_dt2]
+
+# ===== SIMULATION =====
+def simulate_trench_portal(duration=1e-9, steps=1000):
+    # Initialize quantum field
+    t_span = [0, duration]
+    t_eval = np.linspace(0, duration, steps)
+    sol = solve_ivp(klein_gordon, t_span, [1, 0], 
+                   args=(PRESSURE, WAVELENGTH), 
+                   t_eval=t_eval)
+    
+    # Tachyon resonance effects
+    tachyon_field = np.sin(2*np.pi*t_eval/TAU_TACHYON) * luceferin_quantum_state(PRESSURE)
+    psi = sol.y[0] * (1 + 0.3*tachyon_field)
+    
+    # Photon tunneling probability
+    tunneling = lucfarese_activity(WAVELENGTH, PRESSURE) * np.abs(psi)**2
+    
+    # Visualization
+    plt.figure(figsize=(12, 8))
+    
+    # Quantum field dynamics
+    plt.subplot(211)
+    plt.plot(t_eval*1e9, np.real(psi), 'b-', label='Field Re($\Psi$)')
+    plt.plot(t_eval*1e9, np.imag(psi), 'm--', label='Field Im($\Psi$)')
+    plt.plot(t_eval*1e9, tunneling, 'g-', linewidth=2, label='Tunneling Probability')
+    plt.xlabel('Time (ns)')
+    plt.ylabel('Amplitude')
+    plt.title('Klein-Gordon Field Collapse & Photon Tunneling')
+    plt.legend()
+    plt.grid(alpha=0.3)
+    
+    # Phase space visualization
+    plt.subplot(212)
+    plt.plot(np.real(psi), np.imag(psi), 'c-')
+    plt.scatter(np.real(psi[0]), np.imag(psi[0]), s=100, c='r', marker='o', label='Start')
+    plt.scatter(np.real(psi[-1]), np.imag(psi[-1]), s=100, c='b', marker='s', label='End')
+    
+    # Create purple-blue colormap
+    colors = [(0.5, 0, 0.8), (0.3, 0.3, 1.0), (0, 0.5, 1)]  # Purple to blue
+    cmap = LinearSegmentedColormap.from_list("biophotonic", colors)
+    
+    # Add pressure effect gradient
+    for i in range(10):
+        p = i*60
+        r = luceferin_quantum_state(p)
+        circle = plt.Circle((0.7, -0.7-0.1*i), r/20, 
+                            color=cmap(i/10), alpha=0.6)
+        plt.gca().add_patch(circle)
+    
+    plt.xlabel('Re($\Psi$)')
+    plt.ylabel('Im($\Psi$)')
+    plt.title('Quantum State Evolution under Pressure')
+    plt.legend()
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    
+    return tunneling
+
+# ===== RUN SIMULATION =====
+if __name__ == "__main__":
+    tunneling_prob = simulate_trench_portal()
+    plt.savefig('luceferin_quantum_simulation.png', dpi=300)
+    plt.show()
+    
+    # Calculate portal efficiency
+    efficiency = np.trapz(tunneling_prob) * lucfarese_activity(WAVELENGTH, PRESSURE)
+    print(f"\nPortal Efficiency: {efficiency:.2%}")
+    print(f"Bioluminescent Output: {efficiency*1e6:.0f} photons/µs")
