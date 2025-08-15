@@ -1,0 +1,5 @@
+def update_timeline_coherence(self):  
+    if detect_timeline_branching():  
+        self.timeline_coherence -= 0.069  
+    else:  
+        self.timeline_coherence = min(1.0, self.timeline_coherence * 1.069)  
